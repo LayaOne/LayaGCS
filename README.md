@@ -6,6 +6,25 @@
 
 > 更多请访问www.layabox.com
 
+
+### usage
+
+``npm install layagcs``
+
+```javascript
+
+    //初始化Laya Air环境
+    var SCREEN_WIDTH = 1136;
+	var SCREEN_HEIGHT = 640;
+     Laya.init(SCREEN_WIDTH, SCREEN_HEIGHT,Laya.WebGL);
+     
+    //初始化Laya Game Chain SDK
+    let LayaGCS = require('layagcs');
+    LayaGCS.initlize({
+        laya_stage_node:laya.stage
+    })
+```
+
 ### 目前支持的公链
 
 ETH
