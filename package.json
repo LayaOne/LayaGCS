@@ -1,6 +1,6 @@
 {
   "name": "layagcs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Block Chain Game Engine SDK",
   "main": "lib/main.js",
   "scripts": {
@@ -10,5 +10,10 @@
     "LayaOne"
   ],
   "author": "Xhacker",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bip39": "^2.5.0",
+    "ethereumjs-util": "^5.2.0",
+    "ethereumjs-wallet": "^0.6.0"
+  }
 }
