@@ -1,5 +1,6 @@
-var LayaGCS = require('./lib/main');
+var webInject = require('./lib/web3_inject');
 
-var memo = LayaGCS.ETHBip.random_mnemonic();
 
-console.log(memo)
+var web3 = webInject.inject();
+
+web3.eth.getBlock();

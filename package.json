@@ -14,6 +14,14 @@
   "dependencies": {
     "bip39": "^2.5.0",
     "ethereumjs-util": "^5.2.0",
-    "ethereumjs-wallet": "^0.6.0"
+    "ethereumjs-wallet": "^0.6.0",
+    "json-rpc-engine": "^3.7.3",
+    "json-rpc-middleware-stream": "^1.0.1",
+    "loglevel": "^1.6.1",
+    "obj-multiplex": "^1.0.0",
+    "obs-store": "^3.0.0",
+    "post-message-stream": "^3.0.0",
+    "pump": "^3.0.0",
+    "web3": "^0.20.6"
   }
 }
