@@ -23,7 +23,8 @@
     //初始化Laya Game Chain SDK
 
     LayaGCS.initlize({
-        laya_stage_node:laya.stage
+        laya_stage_node:laya.stage,     //Laya Air根节点
+        network:0                       //ETH区块链网络（0位测试网络ropstenTestNet , 1为正式网络)
     })
 ```
 
@@ -133,7 +134,7 @@ ETH
 
 **统一界面封装**
 
-     封装一个eth解锁的统一UI，用于Unlock Eth Address
+    导入ETH地址，钱包首页，交易列表，退出账户，导出私钥等操作的统一界面
 
 **地址导入**
     
@@ -142,7 +143,7 @@ ETH
 
 **为游戏环境提供 web3实例**
 
-    GSC会将一些繁琐的操作封装，同时也全程对游戏提供web3的实例,开发者可以自行指定web3节点
+    GSC会将一些繁琐的操作封装，同时也全程对游戏提供web3的实例。方便开发者调用智能合约等操作。
 
 
 
@@ -154,27 +155,15 @@ ETH
 
 > 所有函数采用小写+下划线连接的形式
 
-> 通过npm进行安装 ``npm install LayaGSC --save``
+> 通过npm进行安装 ``npm install layagcs --save``
 
-> LayaGSC内部集成web3，理论上具备web3所有功能
+> LayaGSC内部集成web3，具备web3所有功能（部分挖矿功能不可开启）
 
-> 允许外部拿到web3实例
+> 由于是H5游戏，为了更好的用户体验，LayaGCS内部的Web3只支持``异步``调用的形式
 
-    var LayaGSC = require('LayaGSC')
+> 详细参见web3的[中文文档](http://web3.tryblockchain.org/Web3.js-api-refrence.html#toc_43)
 
-    LayaGSC.initlize( {provider_info }) //实例初始化，可选参数，指定web3节点，不写即使用GSC Server转发节点
-    
-    LayaGSC.show_login_ui() //显示ETH登录页面
-    
-    LayaGSC.unlock_account(address, wif) //解锁账户
-    
-    LayaGSC.call_contract_method(contract_address, {options} ,callback) //调用合约某函数，内部封装sendRawTransction
-    
-    LayaGSC.send_raw_transaction(signedTransactionData) //发送签名交易
-    
-    LayaGSC.get_web3_instance() //得到web3实例 也可以LayaGSC.web3.xxx()
-    
-    ...
+> LayaGCS详细文档尚未整理
     
     
     
