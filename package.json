@@ -1,6 +1,6 @@
 {
   "name": "layagcs",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "Block Chain Game Engine SDK",
   "main": "lib/main.js",
   "scripts": {
@@ -13,6 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "bip39": "^2.5.0",
+    "co": "^4.6.0",
+    "ethereumjs-tx": "^1.3.4",
     "ethereumjs-util": "^5.2.0",
     "ethereumjs-wallet": "^0.6.0",
     "loglevel": "^1.6.1",
