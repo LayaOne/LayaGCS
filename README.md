@@ -1,15 +1,18 @@
-### LayaGCS ( Laya Game Chain SDK)
+# LayaGCS ( Laya Game Chain SDK)
 
-> 这是一个方便开发者使用LayaAir引擎迅速开发区块链游戏的扩展包
+LayaGCS是一个基于ETH的链互SDK，内置了钱包功能，智能合约调用，web3实例，以及一些基础界面，可以非常方便的让H5游戏接入。
 
-> 本SDK需要Laya Air的运行环境，且必须拥有 Laya Air环境才可以运行
-
-> 更多请访问www.layabox.com
+LayaGCS运行需要Laya Air环境（请参阅https://www.layabox.com/)
 
 
-### usage
+# Installation
 
 ``npm install layagcs``
+
+
+# Hello LayaGCS
+
+> 初始化
 
 ```javascript
 
@@ -21,154 +24,174 @@
     Laya.init(SCREEN_WIDTH, SCREEN_HEIGHT,Laya.WebGL);
      
     //初始化Laya Game Chain SDK
-
     LayaGCS.initlize({
         laya_stage_node:laya.stage,     //Laya Air根节点
-        network:0                       //ETH区块链网络（0位测试网络ropstenTestNet , 1为正式网络)
+        network:0                       //ETH区块链网络（0位测试网络ropstenTestNet , 1为正式网络MainNet)
+    })
+
+
+```
+
+# 使用例子
+
+> 调用智能合约
+
+```javascript
+
+    var web3 = LayaGSC.web3;
+	var wei = 1000000000000000000; // 10^18
+	var gooAbi = require('./gooabi');
+
+	var gooContract = web3.eth.contract(gooAbi).at('0x57b116da40f21f91aec57329ecb763d29c1b2355');
+
+	if(LayaGSC.get_current_account() == undefined){
+		LayaGSC.show_login_ui(Laya.stage);
+		return;
+	}
+
+	/*
+		测试读取合约数据
+	*/	
+	gooContract.getGameInfo(function (err, result) {
+		var time = result[0].toNumber() * 1000;
+		var totalPot = result[1].toNumber() / wei;
+		var totalProduction = result[2].toNumber();
+		var nextSnapshot = result[3].toNumber();
+		var goo = result[4].toNumber();
+		var ether = result[5].toNumber() / wei;
+		var gooProduction = result[6].toNumber();
+		var units = result[7];
+		var upgrades = result[8];
+
+		console.log('时间',time,"总pot",totalPot,"总生产",totalProduction,'下次快照',nextSnapshot,'Goo',goo,'Ether',ether.toFixed(8),'gooProduction',gooProduction)
+		
+	});
+
+
+```
+
+> 在调用写操作智能合约时，请务必保证LayaGCS.web3.eth.defaultAccount不为空
+
+
+
+
+
+# Documentation
+
+> 以下为LayaGCS的一些基础API，文档不断更新，详情关注 Laya.one 官网
+
+## LayaGCS.initlize()
+
+> 初始化SDK以及设置LayaGCS以哪种ETH网络工作，同时会少量加载一些LayaGCS的资源，此处必须传入 LayaAir的根节点
+
+```javascript
+    LayaGCS.initlize({
+        laya_stage_node:laya.stage,     //Laya Air根节点
+        network:0                       //ETH区块链网络（0位测试网络ropstenTestNet , 1为正式网络MainNet)
     })
 ```
 
-### 目前支持的公链
+>初始化成功后，游戏会出现LayaGCS的浮层游标，如图
 
-ETH
-
-
-### 目标：
-
-基于Laya IDE，可以快速创建一个接入ETH主链的区块链游戏，同时可以轻松一键部署、发布合约。
+![](http://palu6iv0v.bkt.clouddn.com/laya_icon_play.gif)
 
 
-### 结构
+## LayaGCS.get_current_account
 
-```
- graph TD;
-     S{GSC Server};
-     N{ETH全节点};
-     D{Laya GSC SDK}
-     E{Laya IDE }
-```
+> 得到当前ETH账户地址
 
 
-### 使用LAYA GSC开发的游戏结构
+## LayaGCS.show_login_ui
 
-```
-    graph TD;
-    G(Laya Game)
-    D(GSC SDK)
-    S(GSC Server)
-    E(ETH 节点)
-    
-    G -- import --> D
-    D -- 链互操作 --> S
-    S -- send Data --> E
-    
+> 弹出账号生成导入界面，在LayaGCS没有defualt_account时，会弹出导入界面，不然则弹出账户主页面
+
+```javascript
+if(LayaGSC.get_current_account() == undefined){
+    LayaGSC.show_login_ui(Laya.stage);
+    return;
+}
 ```
 
+## LayaGCS.web3
 
-### 功能点：
+这是一个完整的web3实例。LayaGCS的web3有一些改动。
 
-**1、创建智能合约**
+由于LayaOne提供了一个全节点，所以游戏前端无需同步区块数据
 
-    ERC20 Token发布模板
+为了更好的游戏体验，LayaGCS.web3不再提供同步方法，例如
 
-    EtherGoo 以太坊游戏模板
+```javascript
+var web3 = LayaGCS.web3
+//原来同步的写法
+var balance = web3.eth.getBalance(LayaGCS.get_default_account()); //同步的写法，LayaGCS不再支持
+//异步调用方法co
+co(function*(){
+    var balance = yield function(done){
+        web3.eth.getBalance(LayaGCS.get_default_account(),done)
+    }
 
-    用户选择相应的模板后，直接将预设合约代码展示出
-
-
-**2、编译合约**
-
-    IDE集成Truffle.js
-
-    .sol文件互相之间支持import
-
-    
-
-
-**3、部署合约**
-
-    
-    流程：
-    
-    1、Laya IDE 弹出秘钥输入框，让与用户输入秘钥
-    2、检测该地址eth余额是否满足gas消耗
-    3、调用GSC的API,构建交易
-    4、发送交易到GSC Server
-    5、GSC Server转发到ETH全节点（这里封装一层的意思是不让用户直接连接节点）
-    
-    
-    
-    
-    
-    
-**签名过程**
-
-> 该过程等同于GSC在游戏中的链互操作流程
-
+    console.log('账户余额为',balalnce)
+})
+//同样也支持async/await
+//await web3.eth.getBlance() ...
 ```
-    sequenceDiagram
-    LayaIDE->>GSC:调用GSC构造合约数据
-    GSC->>GSC Server:构造签名交易并发送
-    GSC Server->>ETH全节点:将数据转发给节点
-    ETH全节点->>GSC:返回Txid
-    
-    
-``` 
+
+LayaGCS.web3会拦截所有的method为eth_sendTransaction的异步方法，并自动为用户弹出交易确认界面
 
 
 
+还是以``etherGoo``https://ethergoo.io/game/ 这个游戏举例，我们做一个白色按钮调用其合约【购买基础单位】
 
-### 4、Metamask功能封装
+```javascript
+    /*
+		测试调用合约函数 - 购买基础单位
+    */
+    function test_call_contract(){
+        gooContract.buyBasicUnit(1,1,function(err,res){
+            if(err){
+                console.log('购买失败',err);
+            }
+	    })
+    }
+	
+```
 
-说明：
-> 现在近乎100%的eth区块链游戏使用Metamask浏览器插件（我没有见过其他的）
+![](http://palu6iv0v.bkt.clouddn.com/call_contract.gif)
 
-> Metamask是一个chrome浏览器钱包，同时向浏览器环境提供了web3的实例
+当用户点击确认交易后，LayaGCS会将本次Transaction签名后，以sendRawTransaction发送至eth节点，然后由节点广播
 
-> 如果想在手机上玩eth区块链游戏，是不能用metamask的。
-
-
-所以GSC需要封装一套自己的类似metamask的功能，随游戏启动而启动。
-
-
-
-**统一界面封装**
-
-    导入ETH地址，钱包首页，交易列表，退出账户，导出私钥等操作的统一界面
-
-**地址导入**
-    
-     支持导入其他ETH地址，需要传入eth地址以及私钥
-
-
-**为游戏环境提供 web3实例**
-
-    GSC会将一些繁琐的操作封装，同时也全程对游戏提供web3的实例。方便开发者调用智能合约等操作。
+> 相关合约您可以查阅``0x57b116da40f21f91aec57329ecb763d29c1b2355``
 
 
 
+## GCS 运行截图
+
+![](http://palu6iv0v.bkt.clouddn.com/UC20180620_140540.png)
 
 
-### GSC API 设计
+![](http://palu6iv0v.bkt.clouddn.com/UC20180620_140626.png)
 
-> 语法说明
 
-> 所有函数采用小写+下划线连接的形式
+## 其他结构
 
-> 通过npm进行安装 ``npm install layagcs --save``
+> LayaGCS是整个Laya.one环节中的一部分
 
-> LayaGSC内部集成web3，具备web3所有功能（部分挖矿功能不可开启）
+![](http://palu6iv0v.bkt.clouddn.com/UC20180620_125405.png)
 
-> 由于是H5游戏，为了更好的用户体验，LayaGCS内部的Web3只支持``异步``调用的形式
+LayaOne由Laya.cloud, laya.chain, laya.air, laya.maker等多个大模块组成
 
-> 详细参见web3的[中文文档](http://web3.tryblockchain.org/Web3.js-api-refrence.html#toc_43)
 
-> LayaGCS详细文档尚未整理
-    
-    
-    
-    
+## 使用LAYA GSC开发的游戏结构
 
+![](http://palu6iv0v.bkt.clouddn.com/UC20180620_125434.gif)
+
+
+
+## Laya IDE
+
+> Laya IDE集成了Truffle.js，可以非常方便的创建和部署智能合约，并提供了相应的智能合约模板
+
+   
 ### LayaIDE界面
 
 > 创建游戏（合约）
@@ -191,25 +214,12 @@ ETH
 ![](https://simg1.zhubaijia.com/UC20180604_161430.png)
 
 
+### 关于Laya.One
 
+IDE的发布以及更多模块请关注https://laya.one以及https://layabox.com
     
     
-    
-    
 
 
 
-
-### 运行截图
-
-![](https://simg1.zhubaijia.com/UC20180609_114822.png)
-
-
-![](https://simg1.zhubaijia.com/UC20180612_150501.png)
-
-
-![](https://simg1.zhubaijia.com/UC20180612_150529.png)
-
-
-![](https://simg1.zhubaijia.com/UC20180608_190857.png)
 
