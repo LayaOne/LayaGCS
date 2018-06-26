@@ -38,14 +38,14 @@ LayaGCS运行需要Laya Air环境（请参阅https://www.layabox.com/)
 
 ```javascript
 
-    var web3 = LayaGSC.web3;
+    var web3 = LayaGCS.web3;
 	var wei = 1000000000000000000; // 10^18
 	var gooAbi = require('./gooabi');
 
 	var gooContract = web3.eth.contract(gooAbi).at('0x57b116da40f21f91aec57329ecb763d29c1b2355');
 
-	if(LayaGSC.get_current_account() == undefined){
-		LayaGSC.show_login_ui(Laya.stage);
+	if(LayaGCS.get_current_account() == undefined){
+		LayaGCS.show_login_ui(Laya.stage);
 		return;
 	}
 
@@ -88,6 +88,7 @@ LayaGCS运行需要Laya Air环境（请参阅https://www.layabox.com/)
     LayaGCS.initlize({
         laya_stage_node:laya.stage,     //Laya Air根节点
         network:0                       //ETH区块链网络（0位测试网络ropstenTestNet , 1为正式网络MainNet)
+        auto_load_last_account:false    //自动读取上次登入的账户
     })
 ```
 
@@ -101,13 +102,16 @@ LayaGCS运行需要Laya Air环境（请参阅https://www.layabox.com/)
 > 得到当前ETH账户地址
 
 
+# LayaGCS.set_inited_callback
+> 设定加载完成回调
+
 ## LayaGCS.show_login_ui
 
 > 弹出账号生成导入界面，在LayaGCS没有defualt_account时，会弹出导入界面，不然则弹出账户主页面
 
 ```javascript
-if(LayaGSC.get_current_account() == undefined){
-    LayaGSC.show_login_ui(Laya.stage);
+if(LayaGCS.get_current_account() == undefined){
+    LayaGCS.show_login_ui(Laya.stage);
     return;
 }
 ```
