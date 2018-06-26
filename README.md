@@ -103,7 +103,7 @@ LayaGCS运行需要Laya Air环境（请参阅https://www.layabox.com/)
 > 得到当前ETH账户地址
 
 
-# LayaGCS.set_inited_callback
+## LayaGCS.set_inited_callback
 > 设定加载完成回调
 
 ## LayaGCS.show_login_ui
