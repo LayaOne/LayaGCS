@@ -23,10 +23,11 @@ LayaGCS运行需要Laya Air环境（请参阅https://www.layabox.com/)
 	var SCREEN_HEIGHT = 640;
     Laya.init(SCREEN_WIDTH, SCREEN_HEIGHT,Laya.WebGL);
      
-    //初始化Laya Game Chain SDK
+    //初始化LayaGCS
     LayaGCS.initlize({
         laya_stage_node:laya.stage,     //Laya Air根节点
         network:0                       //ETH区块链网络（0位测试网络ropstenTestNet , 1为正式网络MainNet)
+        auto_load_last_account:false    //自动读取上次登入的账户
     })
 
 
