@@ -1,0 +1,1 @@
+browserify ./lib/main.js -o ./layagcs.min.js
