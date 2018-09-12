@@ -12,14 +12,20 @@
   "author": "Xhacker",
   "license": "MIT",
   "dependencies": {
+    "assert": "^1.4.1",
     "bip39": "^2.5.0",
+    "bn": "^1.0.1",
     "co": "^4.6.0",
+    "crypto": "^1.0.1",
     "ethereumjs-tx": "^1.3.4",
     "ethereumjs-util": "^5.2.0",
     "ethereumjs-wallet": "^0.6.0",
     "grunt-contrib-uglify-es": "^3.3.0",
+    "keccak": "^1.4.0",
     "loglevel": "^1.6.1",
     "obs-store": "^3.0.0",
+    "secp256k1": "^3.5.2",
+    "uuid": "^3.3.2",
     "web3": "^0.20.6"
   }
 }

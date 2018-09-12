@@ -1,0 +1,1 @@
+cp ./layagcs.min.js /Users/Xhacker/Dropbox/workspace/bin/libs/

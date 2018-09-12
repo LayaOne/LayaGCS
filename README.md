@@ -5,6 +5,16 @@ LayaGCS是一个基于ETH的链互SDK，内置了钱包功能，智能合约调�
 LayaGCS运行需要Laya Air环境（请参阅https://www.layabox.com/)
 
 
+# Updates
+
+加入了签名算法库，用于签名Laya.Cloud前端的前后包关联
+
+```
+    LayaGCS.ethSign.verifySignature
+    LayaGCS.ethSgin.sign
+```
+
+
 # Installation
 
 ``npm install layagcs``
