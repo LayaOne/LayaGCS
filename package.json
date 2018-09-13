@@ -1,8 +1,9 @@
 {
   "name": "layagcs",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Block Chain Game Engine SDK",
   "main": "lib/main.js",
+  "homepage": "https://github.com/LayaOne/LayaGCS#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

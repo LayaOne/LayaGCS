@@ -1,2 +1,4 @@
 cp_debug.sh
+copy_min.sh
+gen_min.sh
 node_modules/*
